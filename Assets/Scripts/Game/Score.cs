@@ -14,6 +14,7 @@ public class Score : MonoBehaviour
     public int Value => _value;
     public float MultiplyedScore => _value * _multiplyerLoader.ScoreMultiplyer;
 
+    public event UnityAction<float> ScoreChanged;
     public event UnityAction HardmodeScoreReached;
 
     private void Start()
@@ -24,6 +25,7 @@ public class Score : MonoBehaviour
     public void IncreaseScore()
     {
         _value++;
+        ScoreChanged?.Invoke(MultiplyedScore);
 
         if (_value >= _hardmodeScore)
             HardmodeScoreReached?.Invoke();
@@ -32,5 +34,6 @@ public class Score : MonoBehaviour
     public void Restart()
     {
         _value = 0;
+        ScoreChanged?.Invoke(_value);
     }
 }

@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
 {
     private Score _playerScore;
     private bool IsClickable = false;
+
+    public event UnityAction Clicked;
 
     private void OnMouseDown()
     {
@@ -13,7 +16,7 @@ public class Enemy : MonoBehaviour
         {
             _playerScore?.IncreaseScore();
             IsClickable = false;
-            gameObject.SetActive(false);
+            Clicked?.Invoke();
         }
     }
 
@@ -25,5 +28,10 @@ public class Enemy : MonoBehaviour
     public void EnableClickable()
     {
         IsClickable = true;
+    }
+
+    public void Die()
+    {
+        gameObject.SetActive(false);
     }
 }
